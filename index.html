@@ -7,6 +7,7 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -271,13 +272,29 @@
     }
 
     function App() {
+      const download = () => {
+        html2canvas(document.getElementById('chart'), { backgroundColor: '#0f1117', scale: 2 }).then(canvas => {
+          const a = document.createElement('a');
+          a.download = 'ERP-AI-Chart.png';
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+        });
+      };
+
       return (
         <div>
           <div className="header">
             <h1>ERP Industrials</h1>
             <p>AI Agent Responsibilities</p>
+            <button onClick={download} style={{
+              marginTop: '16px', padding: '8px 20px', background: '#1e3a5f',
+              color: '#60a5fa', border: '1px solid #4a6fa5', borderRadius: '8px',
+              cursor: 'pointer', fontSize: '13px', fontWeight: '600'
+            }}>
+              ⬇ Download PNG
+            </button>
           </div>
-          <div className="grid">
+          <div id="chart" className="grid">
             {team.map((person, i) => (
               <Card key={i} person={person} />
             ))}
