@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERP Industrials — AI Responsibility Chart</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 40px 24px;
+    }
+
+    #root {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #f8fafc;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: #4a6fa5;
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #2d3748;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f1f5f9;
+      line-height: 1.3;
+    }
+
+    .card-title {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .agents-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #475569;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .agent-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      background: #0f1117;
+      border: 1px solid #2d3748;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .agent-tag .robot {
+      font-size: 14px;
+    }
+
+    .agent-tag.shared {
+      border-style: dashed;
+      color: #64748b;
+    }
+
+    .shared-note {
+      font-size: 11px;
+      color: #475569;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .no-agents {
+      font-size: 13px;
+      color: #374151;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    const team = [
+      {
+        name: "William A. Meyer II",
+        title: "Founder & Partner",
+        initials: "WM",
+        color: "#1e3a5f",
+        textColor: "#60a5fa",
+        agents: [
+          { name: "Marketing Agent" },
+          { name: "Capital Raising Agent" },
+        ]
+      },
+      {
+        name: "Meghan J. Berry",
+        title: "Partner & CIO",
+        initials: "MB",
+        color: "#1e3a5f",
+        textColor: "#60a5fa",
+        agents: [
+          { name: "CIO & Chief of Staff Agent" },
+          { name: "LP Market Intelligence" },
+          { name: "Investor Relations Agent" },
+          { name: "Executive Assistant Agent" },
+          { name: "Investment Analytics Agent" },
+          { name: "Fund Administration Agent" },
+          { name: "Capital Raising 2 Agent" },
+          { name: "Financial Controls Agent" },
+        ]
+      },
+      {
+        name: "Brennan P. Berry",
+        title: "COO / Head of Leasing",
+        initials: "BB",
+        color: "#1e3a5f",
+        textColor: "#60a5fa",
+        agents: [
+          { name: "COO Agent" },
+          { name: "Acquisition Research Agent" },
+          { name: "Brokerage Agent" },
+          { name: "People Ops Agent" },
+        ]
+      },
+      {
+        name: "Michele Simpkins",
+        title: "Controller",
+        initials: "MS",
+        color: "#1a2e1a",
+        textColor: "#4ade80",
+        agents: [
+          { name: "Accounting Agent" },
+        ]
+      },
+      {
+        name: "Sylvia Montoya",
+        title: "Senior Accountant",
+        initials: "SM",
+        color: "#1a2e1a",
+        textColor: "#4ade80",
+        agents: []
+      },
+      {
+        name: "Hannah Powell",
+        title: "Leasing Agent (1099)",
+        initials: "HP",
+        color: "#2a1f1a",
+        textColor: "#fb923c",
+        agents: [
+          { name: "Leasing Agent" },
+        ]
+      },
+      {
+        name: "Liz Cordova",
+        title: "Project Manager",
+        initials: "LC",
+        color: "#2a1f1a",
+        textColor: "#fb923c",
+        agents: [
+          { name: "Property Administration Agent" },
+        ]
+      },
+      {
+        name: "Kassandra Cordova",
+        title: "Property Admin",
+        initials: "KC",
+        color: "#1e1e2e",
+        textColor: "#a78bfa",
+        agents: [
+          { name: "Accounting Agent", shared: true },
+          { name: "Acquisition Research Agent", shared: true },
+          { name: "Property Administration Agent", shared: true },
+        ],
+        sharedNote: "Works across multiple teams"
+      },
+      {
+        name: "Pippi Espinoza",
+        title: "Office Manager",
+        initials: "PE",
+        color: "#1e1e2e",
+        textColor: "#a78bfa",
+        agents: [
+          { name: "Investor Relations Agent", shared: true },
+          { name: "People Ops Agent", shared: true },
+        ],
+        sharedNote: "Supports Investment & Operations teams"
+      },
+    ];
+
+    function Card({ person }) {
+      return (
+        <div className="card">
+          <div className="card-header">
+            <div
+              className="avatar"
+              style={{ background: person.color, color: person.textColor }}
+            >
+              {person.initials}
+            </div>
+            <div>
+              <div className="card-name">{person.name}</div>
+              <div className="card-title">{person.title}</div>
+            </div>
+          </div>
+
+          {person.agents.length > 0 ? (
+            <>
+              <div className="agents-label">AI Agents</div>
+              {person.agents.map((agent, i) => (
+                <div key={i} className={`agent-tag ${agent.shared ? 'shared' : ''}`}>
+                  <span className="robot">🤖</span>
+                  {agent.name}
+                </div>
+              ))}
+              {person.sharedNote && (
+                <div className="shared-note">* {person.sharedNote}</div>
+              )}
+            </>
+          ) : (
+            <div className="no-agents">No dedicated AI agent yet</div>
+          )}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div>
+          <div className="header">
+            <h1>ERP Industrials</h1>
+            <p>AI Agent Responsibilities</p>
+          </div>
+          <div className="grid">
+            {team.map((person, i) => (
+              <Card key={i} person={person} />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
